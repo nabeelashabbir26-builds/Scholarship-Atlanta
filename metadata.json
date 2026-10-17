@@ -1,0 +1,6 @@
+{
+  "name": "Scholarship Atlas",
+  "description": "Global discovery platform dedicated to verified, fully funded scholarships for international students with accurate eligibility, funding breakdown, and trusted official sources.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

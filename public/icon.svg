@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="atlasGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+    <linearGradient id="tealGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#14b8a6" />
+      <stop offset="100%" stop-color="#0d9488" />
+    </linearGradient>
+  </defs>
+  <!-- Background rounded squircle -->
+  <rect width="512" height="512" rx="112" fill="url(#atlasGrad)" />
+  
+  <!-- Outer subtle ring -->
+  <circle cx="256" cy="256" r="170" fill="none" stroke="#334155" stroke-width="6" stroke-dasharray="8 8" />
+  
+  <!-- Compass dial / graduation cap hybrid motif -->
+  <!-- Compass North Pointer (Teal) -->
+  <polygon points="256,106 296,256 256,226" fill="url(#tealGrad)" />
+  <!-- Compass South Pointer (Slate) -->
+  <polygon points="256,406 216,256 256,286" fill="#64748b" />
+  <!-- Compass East Pointer (Teal dark) -->
+  <polygon points="406,256 256,216 286,256" fill="#0d9488" />
+  <!-- Compass West Pointer (Slate light) -->
+  <polygon points="106,256 256,296 226,256" fill="#94a3b8" />
+
+  <!-- Center pivot ring -->
+  <circle cx="256" cy="256" r="28" fill="#0f172a" stroke="#14b8a6" stroke-width="8" />
+  <circle cx="256" cy="256" r="10" fill="#2dd4bf" />
+</svg>

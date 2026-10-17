@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <script>
+      // Defensively catch and satisfy Vite HMR WebSocket in cloud preview iframe
+      (function() {
+        if (typeof window !== 'undefined' && window.WebSocket) {
+          var OrigWebSocket = window.WebSocket;
+          window.WebSocket = function(url, protocols) {
+            var isViteHmr = protocols === 'vite-hmr' || (typeof url === 'string' && (url.indexOf('token=') !== -1 || url.indexOf('vite-hmr') !== -1 || url.indexOf('vite-ping') !== -1));
+            if (isViteHmr) {
+              var ws = new EventTarget();
+              ws.OPEN = 1;
+              ws.CLOSED = 3;
+              ws.CONNECTING = 0;
+              ws.CLOSING = 2;
+              ws.readyState = 1;
+              ws.url = String(url);
+              ws.protocol = Array.isArray(protocols) ? protocols[0] : (protocols || '');
+              ws.send = function() {};
+              ws.close = function() {
+                ws.readyState = 3;
+                setTimeout(function() {
+                  ws.dispatchEvent(new Event('close'));
+                }, 0);
+              };
+              setTimeout(function() {
+                ws.dispatchEvent(new Event('open'));
+              }, 10);
+              return ws;
+            }
+            return new OrigWebSocket(url, protocols);
+          };
+          window.WebSocket.prototype = OrigWebSocket.prototype;
+          window.WebSocket.OPEN = OrigWebSocket.OPEN || 1;
+          window.WebSocket.CLOSED = OrigWebSocket.CLOSED || 3;
+          window.WebSocket.CONNECTING = OrigWebSocket.CONNECTING || 0;
+          window.WebSocket.CLOSING = OrigWebSocket.CLOSING || 2;
+        }
+
+        window.addEventListener('unhandledrejection', function(e) {
+          var msg = e.reason ? (e.reason.message || String(e.reason)) : '';
+          if (msg.indexOf('WebSocket') !== -1 || msg.indexOf('vite') !== -1) {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+          }
+        });
+
+        window.addEventListener('error', function(e) {
+          var msg = e.message || (e.error && e.error.message) || '';
+          if (msg.indexOf('WebSocket') !== -1 || (e.filename && e.filename.indexOf('@vite/client') !== -1)) {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            return true;
+          }
+        }, true);
+
+        var origError = console.error;
+        console.error = function() {
+          var first = arguments[0] ? String(arguments[0]) : '';
+          if (first.indexOf('WebSocket') !== -1 || first.indexOf('[vite]') !== -1) {
+            return;
+          }
+          origError.apply(console, arguments);
+        };
+      })();
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Scholarship Atlas — Verified Fully Funded Scholarships</title>
+    <meta name="description" content="Global discovery platform dedicated to verified, fully funded scholarships for international students with accurate eligibility, funding breakdown, and trusted official sources." />
+    <meta property="og:title" content="Scholarship Atlas — Verified Fully Funded Scholarships" />
+    <meta property="og:description" content="Global discovery platform dedicated to verified, fully funded scholarships for international students with accurate eligibility, funding breakdown, and trusted official sources." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#0f172a" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="ScholAtlas" />
+    <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+
