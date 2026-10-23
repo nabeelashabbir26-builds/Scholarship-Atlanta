@@ -19,7 +19,7 @@ You do **not** need any special software or paid tools. All you need is **Node.j
    ```bash
    npm install
    ```
-   *(This takes about 30 seconds and installs React, Tailwind, and Express into `node_modules`).*
+   *(If npm shows any peer dependency warnings on older npm versions, simply run: `npm install --legacy-peer-deps`)*
 
 ### Step 3: Start the App
 1. Type in the terminal:
